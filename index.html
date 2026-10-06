@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GHV - Calculator Ore de Lucru</title>
+<style>
+/* =====================================================
+   RESET
+===================================================== */
+* {
+    box-sizing: border-box;
+}
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background:
+        radial-gradient(circle at top, #3b0000 0%, #120000 35%, #050505 75%);
+    color: #ffffff;
+    min-height: 100vh;
+}
+/* =====================================================
+   CONTAINER
+===================================================== */
+.container {
+    max-width: 900px;
+    margin: auto;
+    padding: 20px;
+}
+/* =====================================================
+   GHV - LOGO
+===================================================== */
+.ghv-logo {
+    text-align: center;
+    font-size: 72px;
+    font-weight: 1000;
+    letter-spacing: 12px;
+    color: #ff1717;
+    text-shadow:
+        0 0 5px #ff0000,
+        0 0 15px #ff0000,
+        0 0 30px rgba(255,0,0,0.8),
+        5px 5px 0 #000000;
+    margin-top: 5px;
+    margin-bottom: 0;
+}
+.ghv-line {
+    width: 130px;
+    height: 5px;
+    background: #ff0000;
+    margin: 8px auto 15px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px #ff0000;
+}
+/* =====================================================
+   TITLU
+===================================================== */
+h1 {
+    text-align: center;
+    margin: 5px 0;
+    font-size: 28px;
+    font-weight: 900;
+}
+.subtitle {
+    text-align: center;
+    color: #cfcfcf;
+    margin-bottom: 25px;
+}
+/* =====================================================
+   CARD
+===================================================== */
+.card {
+    background: linear-gradient(
+        145deg,
+        #171717,
+        #090909
+    );
+    border: 1px solid #3b3b3b;
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 18px;
+    box-shadow:
+        0 8px 25px rgba(0,0,0,0.5),
+        inset 0 0 20px rgba(255,0,0,0.03);
+}
+.card h2 {
+    margin-top: 0;
+    color: #ffffff;
+    border-left: 5px solid #ff1717;
+    padding-left: 10px;
+}
+/* =====================================================
+   INPUTURI
+===================================================== */
+.select-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 7px;
+    color: #eeeeee;
+}
+select,
+input {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid #444;
+    border-radius: 10px;
+    font-size: 16px;
+    background: #111111;
+    color: #ffffff;
+    outline: none;
+    transition: 0.2s;
+}
+select:focus,
+input:focus {
+    border-color: #ff1717;
+    box-shadow:
+        0 0 10px rgba(255,0,0,0.35);
+}
+/* =====================================================
+   SALARIU
+===================================================== */
+.salary-input {
+    font-size: 22px;
+    font-weight: bold;
+}
+.salary-display {
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+    margin-top: 15px;
+    color: #ff2929;
+    text-shadow:
+        0 0 10px rgba(255,0,0,0.5);
+}
+/* =====================================================
+   WEEKDAY / WEEKEND
+===================================================== */
+.calendar {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+}
+.box {
+    text-align: center;
+    padding: 25px 15px;
+    border-radius: 16px;
+    background: #090909;
+    transition: 0.2s;
+}
+.box:hover {
+    transform: translateY(-2px);
+}
+/* WEEKDAY */
+.weekday {
+    border: 2px solid #ff1717;
+    box-shadow:
+        0 0 18px rgba(255,0,0,0.15);
+}
+/* WEEKEND */
+.weekend {
+    border: 2px solid #ffffff;
+    box-shadow:
+        0 0 18px rgba(255,255,255,0.08);
+}
+.box h3 {
+    margin-top: 0;
+    font-size: 22px;
+    font-weight: 900;
+}
+.weekday h3 {
+    color: #ff2929;
+}
+.weekend h3 {
+    color: #ffffff;
+}
+.number {
+    font-size: 46px;
+    font-weight: 1000;
+    margin: 10px 0;
+    color: #ffffff;
+}
+.box .hours {
+    font-size: 19px;
+    font-weight: bold;
+    color: #cccccc;
+}
+/* =====================================================
+   REZULTATE
+===================================================== */
+.results {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+.result {
+    background: #0c0c0c;
+    border-radius: 12px;
+    padding: 17px;
+    border: 1px solid #303030;
+    transition: 0.2s;
+}
+.result:hover {
+    border-color: #ff1717;
+}
+.result-title {
+    color: #999999;
+    font-size: 14px;
+}
+.result-value {
+    font-size: 23px;
+    font-weight: bold;
+    margin-top: 5px;
+    color: #ffffff;
+}
+/* =====================================================
+   ORE SUPLIMENTARE
+===================================================== */
+.overtime {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+}
+.ot {
+    padding: 18px;
+    border-radius: 14px;
+    background: #090909;
+}
+.ot-weekday {
+    border: 2px solid #ff1717;
+    box-shadow:
+        0 0 15px rgba(255,0,0,0.12);
+}
+.ot-weekend {
+    border: 2px solid #ffffff;
+    box-shadow:
+        0 0 15px rgba(255,255,255,0.05);
+}
+.ot h3 {
+    margin-top: 0;
+    color: #ffffff;
+}
+.ot-weekday h3 {
+    color: #ff2929;
+}
+.ot-result {
+    margin-top: 12px;
+    background: #151515;
+    border-radius: 10px;
+    padding: 12px;
+    line-height: 1.6;
+    color: #dddddd;
+}
+/* =====================================================
+   TOTAL
+===================================================== */
+.total {
+    background:
+        linear-gradient(
+            135deg,
+            #260000,
+            #080000
+        );
+    color: white;
+    text-align: center;
+    padding: 28px;
+    border-radius: 16px;
+    margin-top: 18px;
+    border: 2px solid #ff1717;
+    box-shadow:
+        0 0 25px rgba(255,0,0,0.25);
+}
+.total h2 {
+    margin-top: 0;
+    border: none;
+    padding: 0;
+    color: #ffffff;
+}
+.total-number {
+    font-size: 42px;
+    font-weight: 1000;
+    color: #ff2929;
+    text-shadow:
+        0 0 15px rgba(255,0,0,0.7);
+}
+/* =====================================================
+   INFO
+===================================================== */
+.info {
+    color: #aaaaaa;
+    font-size: 14px;
+    line-height: 1.6;
+}
+.info strong {
+    color: #ff2929;
+}
+/* =====================================================
+   FOOTER GHV
+===================================================== */
+.ghv-footer {
+    text-align: center;
+    margin-top: 30px;
+    padding: 20px;
+    font-size: 15px;
+    color: #777777;
+}
+.ghv-footer strong {
+    color: #ff1717;
+    font-size: 20px;
+    letter-spacing: 4px;
+}
+/* =====================================================
+   TELEFON
+===================================================== */
+@media(max-width: 650px) {
+    .container {
+        padding: 12px;
+    }
+    .ghv-logo {
+        font-size: 55px;
+        letter-spacing: 8px;
+    }
+    h1 {
+        font-size: 22px;
+    }
+    .select-row,
+    .calendar,
+    .results,
+    .overtime {
+        grid-template-columns: 1fr;
+    }
+    .number {
+        font-size: 40px;
+    }
+    .total-number {
+        font-size: 34px;
+    }
+}
+</style>
+</head>
+<body>
+<div class="container">
+<!-- =====================================================
+     GHV
+===================================================== -->
+<div class="ghv-logo">
+    GHV
+</div>
+<div class="ghv-line"></div>
+<h1>⏱️ Calculator Ore de Lucru</h1>
+<div class="subtitle">
+    România • program normal 8 ore/zi
+</div>
+<!-- =====================================================
+     PERIOADA
+===================================================== -->
+<div class="card">
+<h2>📅 Perioada</h2>
+<div class="select-row">
+<div>
+<label>An</label>
+<select id="year">
+    <option value="2026">2026</option>
+    <option value="2027">2027</option>
+    <option value="2028">2028</option>
+    <option value="2029">2029</option>
+    <option value="2030">2030</option>
+</select>
+</div>
+<div>
+<label>Luna</label>
+<select id="month">
+    <option value="0">Ianuarie</option>
+    <option value="1">Februarie</option>
+    <option value="2">Martie</option>
+    <option value="3">Aprilie</option>
+    <option value="4">Mai</option>
+    <option value="5">Iunie</option>
+    <option value="6">Iulie</option>
+    <option value="7">August</option>
+    <option value="8">Septembrie</option>
+    <option value="9" selected>Octombrie</option>
+    <option value="10">Noiembrie</option>
+    <option value="11">Decembrie</option>
+</select>
+</div>
+</div>
+</div>
+<!-- =====================================================
+     SALARIU
+===================================================== -->
+<div class="card">
+<h2>💰 Salariul</h2>
+<label>
+    Introdu salariul tău
+</label>
+<input
+    type="number"
+    id="salary"
+    class="salary-input"
+    value="5500"
+    min="0"
+    step="0.01"
+    placeholder="Exemplu: 5500"
+>
+<div class="salary-display">
+    <span id="salaryDisplay">
+        5500.00
+    </span>
+    lei
+</div>
+</div>
+<!-- =====================================================
+     WEEKDAY / WEEKEND
+===================================================== -->
+<div class="card">
+<h2>📊 Luna selectată</h2>
+<div class="calendar">
+<div class="box weekday">
+<h3>🔴 WEEKDAY</h3>
+<div
+    class="number"
+    id="weekdayDays"
+>
+    0
+</div>
+<div>
+    zile lucrătoare
+</div>
+<div class="hours">
+    <span id="weekdayHours">
+        0
+    </span>
+    ore
+</div>
+</div>
+<div class="box weekend">
+<h3>⚫ WEEKEND</h3>
+<div
+    class="number"
+    id="weekendDays"
+>
+    0
+</div>
+<div>
+    zile weekend
+</div>
+<div class="hours">
+    <span id="weekendHours">
+        0
+    </span>
+    ore
+</div>
+</div>
+</div>
+</div>
+<!-- =====================================================
+     VALOAREA OREI
+===================================================== -->
+<div class="card">
+<h2>💵 Valoarea orei</h2>
+<div class="results">
+<div class="result">
+<div class="result-title">
+    Ore normale în luna respectivă
+</div>
+<div class="result-value">
+<span id="normalHours">
+    0
+</span>
+ore
+</div>
+</div>
+<div class="result">
+<div class="result-title">
+    Salariu
+</div>
+<div class="result-value">
+<span id="salaryResult">
+    0
+</span>
+lei
+</div>
+</div>
+<div class="result">
+<div class="result-title">
+    1 oră normală
+</div>
+<div class="result-value">
+<span id="normalHourValue">
+    0
+</span>
+lei
+</div>
+</div>
+<div class="result">
+<div class="result-title">
+    1 oră weekday +75%
+</div>
+<div class="result-value">
+<span id="weekdayHourValue">
+    0
+</span>
+lei
+</div>
+</div>
+<div class="result">
+<div class="result-title">
+    1 oră weekend +100%
+</div>
+<div class="result-value">
+<span id="weekendHourValue">
+    0
+</span>
+lei
+</div>
+</div>
+</div>
+</div>
+<!-- =====================================================
+     ORE SUPLIMENTARE
+===================================================== -->
+<div class="card">
+<h2>⏱️ Ore suplimentare</h2>
+<div class="overtime">
+<div class="ot ot-weekday">
+<h3>
+    🔴 Weekday +75%
+</h3>
+<label>
+    Ore suplimentare
+</label>
+<input
+    type="number"
+    id="weekdayOT"
+    value="0"
+    min="0"
+    step="0.5"
+>
+<div class="ot-result">
+Ore introduse:
+<b>
+<span id="weekdayOTHours">
+    0
+</span>
+h
+</b>
+<br>
+Valoare:
+<b>
+<span id="weekdayOTMoney">
+    0.00
+</span>
+lei
+</b>
+</div>
+</div>
+<div class="ot ot-weekend">
+<h3>
+    ⚫ Weekend +100%
+</h3>
+<label>
+    Ore suplimentare
+</label>
+<input
+    type="number"
+    id="weekendOT"
+    value="0"
+    min="0"
+    step="0.5"
+>
+<div class="ot-result">
+Ore introduse:
+<b>
+<span id="weekendOTHours">
+    0
+</span>
+h
+</b>
+<br>
+Valoare:
+<b>
+<span id="weekendOTMoney">
+    0.00
+</span>
+lei
+</b>
+</div>
+</div>
+</div>
+</div>
+<!-- =====================================================
+     TOTAL
+===================================================== -->
+<div class="total">
+<h2>
+    💰 TOTAL SALARIU
+</h2>
+<div class="total-number">
+<span id="total">
+    0.00
+</span>
+lei
+</div>
+<p>
+    Salariu + ore suplimentare
+</p>
+</div>
+<!-- =====================================================
+     INFORMAȚII
+===================================================== -->
+<div class="card info">
+<h3>
+    ℹ️ Cum se calculează
+</h3>
+<p>
+<strong>Ora normală</strong>
+=
+salariul ÷ numărul de ore normale
+din luna respectivă.
+</p>
+<p>
+<strong>Weekday +75%</strong>
+=
+ora normală × 1,75.
+</p>
+<p>
+<strong>Weekend +100%</strong>
+=
+ora normală × 2.
+</p>
+<p>
+Sâmbăta și duminica sunt afișate separat.
+Sărbătorile legale care cad în timpul
+săptămânii sunt scăzute din zilele normale
+de lucru.
+</p>
+</div>
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+<div class="ghv-footer">
+Creat pentru calculatorul de ore
+<br><br>
+<strong>GHV</strong>
+</div>
+</div>
+<script>
+/* =====================================================
+   PAȘTE
+===================================================== */
+function getEaster(year) {
+    const a = year % 4;
+    const b = year % 7;
+    const c = year % 19;
+    const d =
+        (19 * c + 15) % 30;
+    const e =
+        (2 * a + 4 * b - d + 6) % 7;
+    const date =
+        d + e + 22;
+    let month;
+    let day;
+    if (date > 31) {
+        month = 4;
+        day = date - 31;
+    } else {
+        month = 3;
+        day = date;
+    }
+    return new Date(
+        year,
+        month - 1,
+        day
+    );
+}
+/* =====================================================
+   ADAUGĂ ZILE
+===================================================== */
+function addDays(date, days) {
+    const result =
+        new Date(date);
+    result.setDate(
+        result.getDate() + days
+    );
+    return result;
+}
+/* =====================================================
+   CHEIE DATĂ
+===================================================== */
+function dateKey(date) {
+    return (
+        date.getFullYear() +
+        "-" +
+        String(
+            date.getMonth() + 1
+        ).padStart(2, "0") +
+        "-" +
+        String(
+            date.getDate()
+        ).padStart(2, "0")
+    );
+}
+/* =====================================================
+   SĂRBĂTORI LEGALE
+===================================================== */
+function getHolidays(year) {
+    const holidays = {};
+    function add(date) {
+        holidays[
+            dateKey(date)
+        ] = true;
+    }
+    add(
+        new Date(year, 0, 1)
+    );
+    add(
+        new Date(year, 0, 2)
+    );
+    add(
+        new Date(year, 0, 6)
+    );
+    add(
+        new Date(year, 0, 7)
+    );
+    add(
+        new Date(year, 0, 24)
+    );
+    const easter =
+        getEaster(year);
+    add(
+        addDays(easter, -2)
+    );
+    add(easter);
+    add(
+        addDays(easter, 1)
+    );
+    add(
+        new Date(year, 4, 1)
+    );
+    add(
+        new Date(year, 5, 1)
+    );
+    add(
+        addDays(easter, 49)
+    );
+    add(
+        addDays(easter, 50)
+    );
+    add(
+        new Date(year, 7, 15)
+    );
+    add(
+        new Date(year, 10, 30)
+    );
+    add(
+        new Date(year, 11, 1)
+    );
+    add(
+        new Date(year, 11, 25)
+    );
+    add(
+        new Date(year, 11, 26)
+    );
+    return holidays;
+}
+/* =====================================================
+   CALCULATOR
+===================================================== */
+function calculate() {
+    const year =
+        Number(
+            document.getElementById("year").value
+        );
+    const month =
+        Number(
+            document.getElementById("month").value
+        );
+    let salary =
+        Number(
+            document.getElementById("salary").value
+        );
+    if (
+        isNaN(salary) ||
+        salary < 0
+    ) {
+        salary = 0;
+    }
+    document.getElementById(
+        "salaryDisplay"
+    ).textContent =
+        salary.toFixed(2);
+    document.getElementById(
+        "salaryResult"
+    ).textContent =
+        salary.toFixed(2);
+    const holidays =
+        getHolidays(year);
+    const daysInMonth =
+        new Date(
+            year,
+            month + 1,
+            0
+        ).getDate();
+    let weekdayDays = 0;
+    let weekendDays = 0;
+    for (
+        let day = 1;
+        day <= daysInMonth;
+        day++
+    ) {
+        const date =
+            new Date(
+                year,
+                month,
+                day
+            );
+        const weekDay =
+            date.getDay();
+        if (
+            weekDay === 0 ||
+            weekDay === 6
+        ) {
+            weekendDays++;
+        } else {
+            if (
+                !holidays[
+                    dateKey(date)
+                ]
+            ) {
+                weekdayDays++;
+            }
+        }
+    }
+    const normalHours =
+        weekdayDays * 8;
+    const weekendHours =
+        weekendDays * 8;
+    let normalHourValue = 0;
+    if (
+        normalHours > 0
+    ) {
+        normalHourValue =
+            salary / normalHours;
+    }
+    const weekdayHourValue =
+        normalHourValue * 1.75;
+    const weekendHourValue =
+        normalHourValue * 2;
+    let weekdayOT =
+        Number(
+            document.getElementById(
+                "weekdayOT"
+            ).value
+        );
+    let weekendOT =
+        Number(
+            document.getElementById(
+                "weekendOT"
+            ).value
+        );
+    if (isNaN(weekdayOT)) {
+        weekdayOT = 0;
+    }
+    if (isNaN(weekendOT)) {
+        weekendOT = 0;
+    }
+    const weekdayOTMoney =
+        weekdayOT *
+        weekdayHourValue;
+    const weekendOTMoney =
+        weekendOT *
+        weekendHourValue;
+    const total =
+        salary +
+        weekdayOTMoney +
+        weekendOTMoney;
+    document.getElementById(
+        "weekdayDays"
+    ).textContent =
+        weekdayDays;
+    document.getElementById(
+        "weekdayHours"
+    ).textContent =
+        normalHours;
+    document.getElementById(
+        "weekendDays"
+    ).textContent =
+        weekendDays;
+    document.getElementById(
+        "weekendHours"
+    ).textContent =
+        weekendHours;
+    document.getElementById(
+        "normalHours"
+    ).textContent =
+        normalHours;
+    document.getElementById(
+        "normalHourValue"
+    ).textContent =
+        normalHourValue.toFixed(2);
+    document.getElementById(
+        "weekdayHourValue"
+    ).textContent =
+        weekdayHourValue.toFixed(2);
+    document.getElementById(
+        "weekendHourValue"
+    ).textContent =
+        weekendHourValue.toFixed(2);
+    document.getElementById(
+        "weekdayOTHours"
+    ).textContent =
+        weekdayOT.toFixed(2);
+    document.getElementById(
+        "weekendOTHours"
+    ).textContent =
+        weekendOT.toFixed(2);
+    document.getElementById(
+        "weekdayOTMoney"
+    ).textContent =
+        weekdayOTMoney.toFixed(2);
+    document.getElementById(
+        "weekendOTMoney"
+    ).textContent =
+        weekendOTMoney.toFixed(2);
+    document.getElementById(
+        "total"
+    ).textContent =
+        total.toFixed(2);
+}
+/* =====================================================
+   ACTUALIZARE AUTOMATĂ
+===================================================== */
+document
+    .getElementById("year")
+    .addEventListener(
+        "change",
+        calculate
+    );
+document
+    .getElementById("month")
+    .addEventListener(
+        "change",
+        calculate
+    );
+document
+    .getElementById("salary")
+    .addEventListener(
+        "input",
+        calculate
+    );
+document
+    .getElementById("weekdayOT")
+    .addEventListener(
+        "input",
+        calculate
+    );
+document
+    .getElementById("weekendOT")
+    .addEventListener(
+        "input",
+        calculate
+    );
+/* =====================================================
+   PORNIRE
+===================================================== */
+calculate();
+</script>
+</body>
+</html>
