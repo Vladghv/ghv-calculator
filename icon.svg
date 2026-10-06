@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 512 512">
+
+    <rect
+        width="512"
+        height="512"
+        rx="100"
+        fill="#050505"/>
+
+    <rect
+        x="18"
+        y="18"
+        width="476"
+        height="476"
+        rx="90"
+        fill="none"
+        stroke="#b00000"
+        stroke-width="18"/>
+
+    <text
+        x="256"
+        y="315"
+        text-anchor="middle"
+        font-family="Impact, Haettenschweiler, Arial Narrow Bold, sans-serif"
+        font-size="185"
+        font-weight="900"
+        letter-spacing="5"
+        fill="#ff1515"
+        stroke="#000000"
+        stroke-width="8"
+        paint-order="stroke">
+
+        GHV
+
+    </text>
+
+</svg>
