@@ -1,0 +1,19 @@
+{
+  "name": "GHV - Calculator Ore de Lucru",
+  "short_name": "GHV Ore",
+  "description": "Calculator GHV pentru ore normale, ore suplimentare și salariu.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#050505",
+  "theme_color": "#080808",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
